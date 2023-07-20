@@ -1,0 +1,146 @@
+<template>
+  <div 
+    class="fixed flex flex-col md:mt-20 left-3 w-14 hover:w-64 md:w-64 bg-blue-900 rounded-3xl dark:bg-gray-900 shadow-2xl text-white transition-all duration-300 border-none z-10 sidebar">
+    <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
+      <ul class="flex flex-col py-4 space-y-1">
+        <li class="px-5 hidden md:block">
+          <div class="flex flex-row items-center h-8">
+            <div class="text-sm font-light tracking-wide text-gray-400 uppercase">
+              Main
+            </div>
+          </div>
+        </li>
+        <li>
+          <router-link to="/homeadmin"
+            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+            <span class="inline-flex justify-center items-center ml-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                </path>
+              </svg>
+            </span>
+            <span class="ml-2 text-sm tracking-wide truncate">Dashboard</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/divisi"
+            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+            <span class="inline-flex justify-center items-center ml-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </span>
+            <span class="ml-2 text-sm tracking-wide truncate">Divisi</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/area"
+            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+            <span class="inline-flex justify-center items-center ml-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </span>
+            <span class="ml-2 text-sm tracking-wide truncate">Area</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/groupequipment"
+            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+            <span class="inline-flex justify-center items-center ml-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </span>
+            <span class="ml-2 text-sm tracking-wide truncate">Group Equipment</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/equipment"
+            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+            <span class="inline-flex justify-center items-center ml-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </span>
+            <span class="ml-2 text-sm tracking-wide truncate">Equipment</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/type"
+            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+            <span class="inline-flex justify-center items-center ml-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </span>
+            <span class="ml-2 text-sm tracking-wide truncate">Type</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/transaksi"
+            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+            <span class="inline-flex justify-center items-center ml-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </span>
+            <span class="ml-2 text-sm tracking-wide truncate">Transaksi</span>
+          </router-link>
+        </li>
+
+        <!-- Sidebar Admin -->
+        <li v-if="dataUser.role_id !== null && dataUser.role.name === 'super_admin'">
+          <router-link to="addadmin" 
+          class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+                <span class="inline-flex justify-center items-center ml-4">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                </span>
+            <span class="ml-2 text-sm tracking-wide truncate">Admin</span>
+          </router-link>
+        </li>
+        <!-- End Sidebar Admin -->
+
+      </ul>
+      <p class="mb-4 px-5 py-3 hidden md:block text-center text-xs">
+        Copyright @2021
+      </p>
+    </div>
+  </div>
+</template>
+
+<script>
+import { defineComponent, computed } from "vue";
+import { useStore } from "vuex";
+
+export default defineComponent({
+  setup() {
+    const store = useStore();
+    const dataUser = computed(() => store.state.auth.dataUser);
+
+    return {
+      store,
+      dataUser,
+    };
+  },
+});
+</script>
+
+<style scoped></style>
