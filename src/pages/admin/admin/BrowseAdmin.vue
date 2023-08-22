@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto flex flex-wrap p-5 flex-col md:flex-row">
     <div class="md:col-span-2 xl:col-span-3">
-      <h3 class="text-lg font-semibold">Daftar Admin</h3>
+      <h3 class="text-lg font-semibold">Daftar Pengguna</h3>
     </div>
     <div class="w-full flex flex-col mt-12">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">

@@ -1,27 +1,24 @@
 import { createWebHistory, createRouter } from "vue-router";
-// admin
-import Dashboard from "./../pages/admin/dashboard/Dashboard.vue";
-import Divisi from "./../pages/admin/divisi/BrowseData.vue";
-import Area from "./../pages/admin/area/BrowseArea.vue";
-import GroupEquipment from "./../pages/admin/groupequipment/BrowseGroup.vue";
-import Equipment from "./../pages/admin/equipment/BrowseEquipment.vue";
-import Type from "./../pages/admin/type/BrowseType.vue";
-import TypeDetail from "./../pages/admin/type/DetailType.vue";
+
+// ADMIN
 import AddAdmin from "./../pages/admin/admin/BrowseAdmin.vue";
 import Transaksi from "./../pages/admin/transaksi/BrowseTransaksi.vue";
 import Login from "./../pages/auth/Login.vue";
+import Register from "./../pages/auth/Register.vue";
+import EmailVerification from "./../pages/auth/EmailVerification.vue";
+import DashboardAdmin from "./../pages/admin/dashboard/DashboardAdmin.vue";
+import Kategori from "./../pages/admin/kategori/BrowseKategori.vue";
+import BarangAdmin from "./../pages/admin/barang/BrowseBarang.vue";
+import DetailBarang from "./../pages/admin/barang/DetailBarang.vue";
+import Pesanan from "./../pages/admin/pesanan/BrowsePesanan.vue";
+import Bank from "./../pages/admin/bank/BrowseBank.vue";
 
-// user
-import DashboardUser from "./../pages/user/DashboardUser.vue";
-// import DivisiUser from "./../pages/user/DivisiUser.vue";
-// import AreaUser from "./../pages/user/AreaUser.vue";
-// import GroupEquipmentUser from "./../pages/user/GroupEquipmentUser.vue";
-// import EquipmentUser from "./../pages/user/EquipmentUser.vue";
-import TypeUser from "./../pages/user/TypeUser.vue";
+// USER
+import Dashboard from "./../pages/user/Dashboard.vue";
 import GaleriUser from "./../pages/user/GaleriUser.vue";
-import BeritaUser from "./../pages/user/BeritaUser.vue";
-import DashboardUserShowType from "./../pages/user/DashboardUserShowType.vue";
-
+import Barang from "./../pages/user/Barang.vue";
+import Keranjang from "./../pages/user/Keranjang.vue";
+import Pembayaran from "./../pages/user/Pembayaran.vue";
 
 import store from "../store";
 
@@ -32,62 +29,60 @@ const routes = [
         name: "Login",
         component: Login,
         meta: { layout: "empty",guest: true},
-
-    },  
+    }, 
+    {
+        path: "/register",
+        name: "Register",
+        component: Register,
+        meta: { layout: "empty",guest: true},
+    },
+    {
+        path: "/emailverification",
+        name: "EmailVerification",
+        component: EmailVerification,
+        meta: { layout: "empty",guest: true},
+    },
     {
         path: "/",
         name: "Home",
-        component: DashboardUser,
+        component: Dashboard,
         meta: { layout: "user",requiredLogin: false},
 
     },
     {
         path: "/homeadmin",
         name: "HomeAdmin",
-        component: Dashboard,
-        meta: { layout: "admin",requiredLogin: true},
-
+        component: DashboardAdmin,
+        meta: { layout: "admin",requiredLogin: true,  role: "admin"},
     },
     {
-        path: "/divisi",
-        name: "Divisi",
-        component: Divisi,
-        meta: { layout: "admin",requiredLogin: true},
-    },
-    {
-        path: "/area",
-        name: "Area",
-        component: Area,
+        path: "/kategori",
+        name: "Kategori",
+        component: Kategori,
         meta: { layout: "admin",requiredLogin: true},
     },
     {
-        path: "/groupequipment",
-        name: "GroupEquipment",
-        component: GroupEquipment,
+        path: "/barangadmin",
+        name: "BarangAdmin",
+        component: BarangAdmin,
         meta: { layout: "admin",requiredLogin: true},
     },
     {
-        path: "/equipment",
-        name: "Equipment",
-        component: Equipment,
+        path: "/detailbarang/:id",
+        name: "DetailBarang",
+        component: DetailBarang,
         meta: { layout: "admin",requiredLogin: true},
     },
     {
-        path: "/type",
-        name: "Type",
-        component: Type,
+        path: "/pesanan",
+        name: "Pesanan",
+        component: Pesanan,
         meta: { layout: "admin",requiredLogin: true},
     },
     {
-        path: "/typedetail/:id",
-        name: "TypeDetail",
-        component: TypeDetail,
-        meta: { layout: "admin",requiredLogin: true},
-    },
-    {
-        path: "/transaksi",
-        name: "Transaksi",
-        component: Transaksi,
+        path: "/bank",
+        name: "Bank",
+        component: Bank,
         meta: { layout: "admin",requiredLogin: true},
     },
     {
@@ -96,51 +91,20 @@ const routes = [
         component: AddAdmin,
         meta: { layout: "admin",requiredLogin: true},
     },
+    {
+        path: "/transaksi",
+        name: "Transaksi",
+        component: Transaksi,
+        meta: { layout: "admin",requiredLogin: true},
+    },
     
 
     // USER
     {
-        path: "/dashboarduser",
-        name: "DashboardUser",
-        component: DashboardUser,
-        meta: { layout: "user",requiredLogin: false},
-    },
-    {
-        path: "/content/:id",
-        name: "Content",
-        component: DashboardUserShowType,
-        meta: { layout: "user",requiredLogin: false},
-
-    },
-    // {
-    //     path: "/divisiuser",
-    //     name: "DivisiUser",
-    //     component: DivisiUser,
-    //     meta: { layout: "user",requiredLogin: false},
-    // },
-    // {
-    //     path: "/areauser",
-    //     name: "AreaUser",
-    //     component: AreaUser,
-    //     meta: { layout: "user",requiredLogin: false},
-    // },
-    // {
-    //     path: "/groupequipmentuser",
-    //     name: "GroupEquipmentUser",
-    //     component: GroupEquipmentUser,
-    //     meta: { layout: "user",requiredLogin: false},
-    // },
-    // {
-    //     path: "/equipmentuser",
-    //     name: "EquipmentUser",
-    //     component: EquipmentUser,
-    //     meta: { layout: "user",requiredLogin: false},
-    // },
-    {
-        path: "/typeuser",
-        name: "TypeUser",
-        component: TypeUser,
-        meta: { layout: "user",requiredLogin: false},
+        path: "/dashboard",
+        name: "Dashboard",
+        component: Dashboard,
+        meta: { layout: "user",requiredLogin: true,  role: "user"},
     },
     {
         path: "/galeriuser",
@@ -149,10 +113,22 @@ const routes = [
         meta: { layout: "user",requiredLogin: false},
     },
     {
-        path: "/beritauser",
-        name: "BeritaUser",
-        component: BeritaUser,
+        path: "/barang",
+        name: "Barang",
+        component: Barang,
         meta: { layout: "user",requiredLogin: false},
+    },
+    {
+        path: "/keranjang",
+        name: "Keranjang",
+        component: Keranjang,
+        meta: { layout: "user",requiredLogin: true},
+    },
+    {
+        path: "/pembayaran",
+        name: "Pembayaran",
+        component: Pembayaran,
+        meta: { layout: "user",requiredLogin: true},
     },
 ];
 
@@ -164,16 +140,24 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     if (to.matched.some((record) => record.meta.requiredLogin)) {
         if (store.getters['auth/isLoggedIn']) {
+            const user = store.getters['auth/dataUser']
+            if (user.role.name === 'user') {
+                next();
+                return;
+            } else if ((user.role.name === 'admin')) {
+                next();
+                return;
+            } else if (user.role.name === 'super_admin') {
+                next();
+                return;
+            } else {
+                next('/buathalaman access forbidden');
+            }
+
             next();
             return;
         }
         next("/login");
-    } else if (to.matched.some((record) => record.meta.guest)) {
-        if (store.getters['auth/isLoggedIn']) {
-            next("/homeadmin");
-            return;
-        }
-        next();
     } else {
         next();
     }

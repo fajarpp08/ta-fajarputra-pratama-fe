@@ -1,7 +1,7 @@
 <template>
   <div v-if="show" ref="FormTransaksi">
     <form class="flex flex-col justify-center w-1/3">
-      <form-input v-model="formData.nomor" is-read-only placeholder="Masukan Nomor" showlabel="" warnanya="bg-gray-800"
+      <form-input v-model="formData.nomor" is-read-only placeholder="Masukan Nomor" showlabel="" warnanya="bg-gray-100"
         label="Nomor Transaksi" />
       <form-input v-model="formData.tgl" type="date" :error="errors.tgl" placeholder="Masukan tanggal" showlabel=""
         label="Tanggal" />

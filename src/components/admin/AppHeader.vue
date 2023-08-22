@@ -1,19 +1,20 @@
 <template>
-  <div class="fixed w-full md:top-1 left-2 w-14 shadow-3xl flex items-center justify-between h-20 text-white z-10">
+  <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
     <div
-      class="flex items-center justify-start md:justify-center shadow-xl pl-6 w-14 md:w-64 h-16 bg-blue-800 dark:bg-gray-800 rounded-l-3xl border-none">
+      class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 bg-blue-800 dark:bg-gray-800 border-none">
       <img class="w-7 h-7 md:w-10 md:h-10 mr-2 rounded-md overflow-hidden"
         src="https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg" />
-      <span class="hidden md:block">{{ dataUser ? dataUser.name : "-" }}</span>
+       <span class="hidden md:block">{{ dataUser ? dataUser.name : "-" }}</span>
     </div>
-
-    <div
-      class="flex justify-between items-center shadow-xl mr-4 h-16 bg-blue-800 dark:bg-gray-800 rounded-r-3xl header-right">
+    <div class="flex justify-between items-center h-14 bg-blue-800 dark:bg-gray-800 header-right">
+      <div
+      class="flex justify-between items-center shadow-xl mr-4 h-14 bg-blue-800 dark:bg-gray-800 header-right">
       <div class="bg-blue-800">
-        <p class="w-full pl-3 text-xl text-white font-bold">Digital Maintenance Journal</p>
+        <p class="w-full pl-3 text-xl text-white font-bold">Jelajah Alam Sumbar</p>
       </div>
-
+      </div>
       <ul class="flex items-center">
+
         <li>
           <span @click="logout" class="flex items-center mr-4 hover:text-blue-100 cursor-pointer">
             <span class="inline-flex mr-1">
@@ -51,7 +52,7 @@ export default defineComponent({
   methods: {
     logout: function () {
       this.$store.dispatch("auth/logout").then(() => {
-        this.$router.push("/login");
+        this.$router.push("Login");
       });
     },
   },

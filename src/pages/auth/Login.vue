@@ -2,13 +2,13 @@
   <!-- component -->
   <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
     <div class="relative py-3 sm:max-w-xl sm:mx-auto">
-      <div
+      <!-- <div
         class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
-      </div>
-      <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-6">
+      </div> -->
+      <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-6"  v-if="mode == 'browse'">
         <div class="max-w-md mx-auto">
-          <div>
-            <h1 class="text-xl font-extrabold">Digital Maintenance Journal</h1>
+          <div class="">
+            <h1 class="text-xl font-extrabold flex justify-center">Jelajah Alam Sumbar</h1>
           </div>
           <div class="divide-y divide-gray-200">
             <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
@@ -17,7 +17,7 @@
                   role="alert">
                   {{ errorMessage }}
                 </div>
-                <h2 class="text-gray-900 text-lg font-medium title-font mb-5">
+                <h2 class="text-gray-900 text-xl font-bold title-font mb-5 flex justify-center">
                   Sign In
                 </h2>
                 <div class="relative mb-4">
@@ -39,9 +39,18 @@
                   Login
                 </button>
               </div>
+              <div class="relative">
+                <button @click="addData"
+                  class="text-white bg-yellow-400 border-0 w-full py-2 px-8 focus:outline-none hover:bg-yellow-500 rounded text-lg">
+                  Register
+                </button>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <register ref="formRegister" @finish="onFormClose" />
       </div>
     </div>
   </div>
@@ -51,8 +60,10 @@
 import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
 import api from "../../api.js";
-
+import Register from "./Register.vue";
 export default defineComponent({
+  components: { Register },
+
   setup() {
     const store = useStore();
     const isLogin = computed(() => store.state.auth.isLoggedIn);
@@ -67,6 +78,7 @@ export default defineComponent({
         email: "",
         password: "",
       },
+      mode: "browse",
       errors: [],
       errorMessage: null,
     };
@@ -77,8 +89,21 @@ export default defineComponent({
   methods: {
     doLogin() {
       this.store.dispatch("auth/login", this.formData).then(
-        () => {
-          this.$router.push({ name: "HomeAdmin" });
+        (response) => {
+          const user = response.data.data.record;
+
+          if (user.role.name === 'user') {
+            console.log('login_user')
+            this.$router.push({ name: "Dashboard" })
+          }
+          else if (user.role.name === 'admin') {
+            console.log('login_admin')
+            this.$router.push({ name: "HomeAdmin" })
+          }
+          else if (user.role.name === 'super_admin') {
+            console.log('login_super')
+            this.$router.push({ name: "HomeAdmin" })
+          }
         },
         (err) => {
           if (err.response.status === 422) {
@@ -88,6 +113,19 @@ export default defineComponent({
           }
         }
       );
+    },
+    // doRegister: function () {
+    //   // this.$store.dispatch("auth/logout").then(() => {
+    //   this.$router.push("/register");
+    //   // });
+    // },
+    onFormClose() {
+      this.mode = "browse";
+      this.loadData();
+    },
+    addData() {
+      this.mode = "form";
+      this.$refs["formRegister"].newData();
     },
   },
 });
