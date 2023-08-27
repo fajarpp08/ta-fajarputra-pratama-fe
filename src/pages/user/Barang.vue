@@ -443,7 +443,7 @@ export default defineComponent({
           .post("keranjang", this.pesan)
           .then(() => {
             // console.log('berhasil')
-            this.$router.push({ path: "/keranjang" });
+            // this.$router.push({ path: "/keranjang" });
             // this.$toast.success("Sukses masuk keranjang", {
             //   type: "success",
             //   position: "top-right",

@@ -5,7 +5,7 @@
       <!-- <div
         class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
       </div> -->
-      <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-6"  v-if="mode == 'browse'">
+      <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-6" v-if="mode == 'browse'">
         <div class="max-w-md mx-auto">
           <div class="">
             <h1 class="text-xl font-extrabold flex justify-center">Jelajah Alam Sumbar</h1>
@@ -34,7 +34,7 @@
 
               </div>
               <div class="relative">
-                <button @click="doLogin"
+                <button @click="submitLogin"
                   class="text-white bg-indigo-500 border-0 w-full py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                   Login
                 </button>
@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import axios from 'axios'
 import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
 import api from "../../api.js";
@@ -87,38 +89,66 @@ export default defineComponent({
     console.log("isLogin 2" + this.isLogin);
   },
   methods: {
-    doLogin() {
-      this.store.dispatch("auth/login", this.formData).then(
-        (response) => {
-          const user = response.data.data.record;
+    // doLogin() {
+    //   this.store.dispatch("auth/login", this.formData).then(
+    //     (response) => {
+    //       const user = response.data.data.record;
 
-          if (user.role.name === 'user') {
-            console.log('login_user')
-            this.$router.push({ name: "Dashboard" })
-          }
-          else if (user.role.name === 'admin') {
-            console.log('login_admin')
-            this.$router.push({ name: "HomeAdmin" })
-          }
-          else if (user.role.name === 'super_admin') {
-            console.log('login_super')
-            this.$router.push({ name: "HomeAdmin" })
-          }
-        },
-        (err) => {
-          if (err.response.status === 422) {
-            this.errors = err.response.data.errors;
-          } else {
-            this.errorMessage = err.response.data.respon_status.message;
-          }
-        }
-      );
-    },
-    // doRegister: function () {
-    //   // this.$store.dispatch("auth/logout").then(() => {
-    //   this.$router.push("/register");
-    //   // });
+    //       if (user.role.name === 'user') {
+    //         console.log('login_user')
+    //         this.$router.push({ name: "Dashboard" })
+    //       }
+    //       else if (user.role.name === 'admin') {
+    //         console.log('login_admin')
+    //         this.$router.push({ name: "HomeAdmin" })
+    //       }
+    //       else if (user.role.name === 'super_admin') {
+    //         console.log('login_super')
+    //         this.$router.push({ name: "HomeAdmin" })
+    //       }
+    //     },
+    //     (err) => {
+    //       if (err.response.status === 422) {
+    //         this.errors = err.response.data.errors;
+    //       } else {
+    //         this.errorMessage = err.response.data.respon_status.message;
+    //       }
+    //     }
+    //   );
     // },
+    submitLogin() {
+      const pesanLogin = 'Berhasil Login'
+      const pesanGalat = 'Maaf, Terjadi Kesalahan Dalam Permintaan Request'
+      axios.post('http://integrasiautama.my.id/api/login', {
+        email: this.formData.email,
+        password: this.formData.password
+      }).then((response) => {
+        if (response.data.status == pesanGalat) {
+            this.handleGalat(response.data.pesan)
+        } else if(response.data.success == false) {
+            this.handleGalat(response.data.message)
+        } else if(response.data.pesan == pesanLogin) {
+          Cookies.set('token', response.data.data.token)
+          this.handleSuccess(response.data.pesan)
+          window.location = '/'
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
+    },
+    handleSuccess(message) {
+      this.$swal({
+        icon: 'success',
+        text: message
+      })
+    },
+    handleGalat(message) {
+      this.$swal({
+        icon: 'error',
+        title: 'galat',
+        text: message
+      })
+    },
     onFormClose() {
       this.mode = "browse";
       this.loadData();

@@ -3,7 +3,8 @@ import './style.css'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 //quill editor
@@ -80,7 +81,7 @@ app.component('table-pagination', TablePagination);
 
 store.dispatch('auth/isValidLogin')
     .then(() => {
-        app.use(router).use(store).mount('#app')
+        app.use(router).use(VueSweetalert2).use(store).mount('#app')
     }).catch((error) => {
     console.error(error);
 })

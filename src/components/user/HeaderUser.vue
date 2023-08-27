@@ -47,17 +47,24 @@
       <nav class="contents">
         <ul class="ml-2 xl:w-32 flex items-center justify-end">
           <li class="ml-2 lg:ml-4 relative inline-block">
-            <router-link to="/keranjang">
-              <div class="absolute -top-1 right-0 z-10 bg-yellow-400 text-xs font-bold px-1 py-0.5 rounded-sm">
-                12
-              </div>
-              <svg class="h-9 lg:h-10 p-2 text-gray-900" aria-hidden="true" focusable="false" data-prefix="far"
-                data-icon="shopping-cart" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                <path fill="currentColor"
-                  d="M551.991 64H144.28l-8.726-44.608C133.35 8.128 123.478 0 112 0H12C5.373 0 0 5.373 0 12v24c0 6.627 5.373 12 12 12h80.24l69.594 355.701C150.796 415.201 144 430.802 144 448c0 35.346 28.654 64 64 64s64-28.654 64-64a63.681 63.681 0 0 0-8.583-32h145.167a63.681 63.681 0 0 0-8.583 32c0 35.346 28.654 64 64 64 35.346 0 64-28.654 64-64 0-18.136-7.556-34.496-19.676-46.142l1.035-4.757c3.254-14.96-8.142-29.101-23.452-29.101H203.76l-9.39-48h312.405c11.29 0 21.054-7.869 23.452-18.902l45.216-208C578.695 78.139 567.299 64 551.991 64zM208 472c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm256 0c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm23.438-200H184.98l-31.31-160h368.548l-34.78 160z">
-                </path>
-              </svg>
-            </router-link>
+            <template v-if="token">
+              <template v-if="isKeranjangEmpty">
+                kosong
+              </template>
+              <template v-else>
+                <router-link :to="'keranjang/' + keranjang.id">
+                  <div class="absolute -top-1 right-0 z-10 bg-yellow-400 text-xs font-bold px-1 py-0.5 rounded-sm">
+                    1
+                  </div>
+                  <svg class="h-9 lg:h-10 p-2 text-gray-900" aria-hidden="true" focusable="false" data-prefix="far"
+                    data-icon="shopping-cart" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <path fill="currentColor"
+                      d="M551.991 64H144.28l-8.726-44.608C133.35 8.128 123.478 0 112 0H12C5.373 0 0 5.373 0 12v24c0 6.627 5.373 12 12 12h80.24l69.594 355.701C150.796 415.201 144 430.802 144 448c0 35.346 28.654 64 64 64s64-28.654 64-64a63.681 63.681 0 0 0-8.583-32h145.167a63.681 63.681 0 0 0-8.583 32c0 35.346 28.654 64 64 64 35.346 0 64-28.654 64-64 0-18.136-7.556-34.496-19.676-46.142l1.035-4.757c3.254-14.96-8.142-29.101-23.452-29.101H203.76l-9.39-48h312.405c11.29 0 21.054-7.869 23.452-18.902l45.216-208C578.695 78.139 567.299 64 551.991 64zM208 472c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm256 0c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm23.438-200H184.98l-31.31-160h368.548l-34.78 160z">
+                    </path>
+                  </svg>
+                </router-link>
+              </template>
+            </template>
           </li>
           <li class="ml-2 lg:ml-4 relative inline-block">
             <a class="" href="">
@@ -76,57 +83,83 @@
             }}</span>
           </div>
         </ul>
-        <div>
+        <template v-if="!token">
           <div class="hidden md:flex items-center space-x-1 ml-2">
             <div @click="login"
               class="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300 cursor-pointer">
               Login</div>
           </div>
-        </div>
-        <!-- <div v-if="dataUser.role.name !== null"> -->
+        </template>
+        <template v-else>
           <div class="hidden md:flex items-center space-x-1 ml-2">
             <div @click="logout"
               class="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300 cursor-pointer">
               Logout</div>
           </div>
-        <!-- </div> -->
+        </template>
       </nav>
-
-      <!-- end buttons -->
-
     </div>
     <hr />
   </header>
 </template>
-
 <script>
+import Cookies from 'js-cookie'
 import { defineComponent, computed } from "vue";
 import Dropdown from "../Dropdown.vue";
 import { useStore } from "vuex";
-
+import axios from 'axios'
 // import Dropdown from '../Dropdown.vue'
 export default defineComponent({
+  data() {
+    return {
+      token: Cookies.get('token'),
+      keranjang: {}
+    }
+  },
   components: { Dropdown },
   setup() {
     const store = useStore();
     const dataUser = computed(() => store.state.auth.dataUser);
-
     return {
       store,
       dataUser,
     };
   },
-  methods: {
-    logout: function () {
-      this.$store.dispatch("auth/logout").then(() => {
-        this.$router.push("Login");
-      });
+  computed: {
+    isKeranjangEmpty() {
+      return this.keranjang.length === 0;
     },
+  },
+  mounted() {
+    this.getKeranjang()
+  },
+  methods: {
+    // logout: function () {
+    //   this.$store.dispatch("auth/logout").then(() => {
+    //     this.$router.push("Login");
+    //   });
+    // },
     login: function () {
       // this.$store.dispatch("auth/login").then(() => {
-        this.$router.push({ name: "Login" })
+      this.$router.push({ name: "Login" })
       // });
     },
+    logout() {
+      axios.get('http://integrasiautama.my.id/api/login', {}).then((response) => {
+        Cookies.remove('token')
+        window.location = '/'
+      })
+    },
+    getKeranjang() {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }
+      axios.get('http://integrasiautama.my.id/api/keranjang', config).then((response) => {
+        this.keranjang = response.data.data
+      })
+    }
   }
 });
 

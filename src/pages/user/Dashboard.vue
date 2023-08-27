@@ -29,69 +29,131 @@
         <div class="flex flex-wrap justify-center">
           <div class="w-full flex justify-center">
             <h2 class="text-2xl tracking-tight font-bold text-gray-900">
+              Our Category Products!
+            </h2>
+          </div>
+          <!-- Card Kategori -->
+          <template v-if="token">
+            <section class="py-2 bg-white-100">
+              <div class="mx-auto grid max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                <template v-for="data in kategori">
+                  <article
+                    class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                    <a>
+                      <div class="relative flex items-end overflow-hidden rounded-xl mt-8">
+                        <img src="https://freepngimg.com/download/party/146384-camp-tent-download-hq.png" />
+                      </div>
+                      <div class="mt-4 p-2">
+                        <h2 class="text-slate-900 text-xl flex justify-center font-bold">
+                          {{ data.name }}
+                        </h2>
+                      </div>
+                    </a>
+                  </article>
+                </template>
+                <!-- <article
+                  class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                  <a>
+                    <div class="relative flex items-end overflow-hidden rounded-xl">
+                      <img src="https://png.monster/wp-content/uploads/2022/03/png.monster-1015.png" />
+                    </div>
+                    <div class="mt-1 p-2">
+                      <h2 class="text-slate-900 text-xl flex justify-center font-bold">Tas</h2>
+                    </div>
+                  </a>
+                </article>
+                <article
+                  class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                  <a>
+                    <div class="relative flex items-end overflow-hidden rounded-xl">
+                      <img src="../../assets/stovecamp.png" />
+                    </div>
+                    <div class="mt-1 p-2">
+                      <h2 class="text-slate-900 text-xl flex justify-center font-bold">Alat Masak</h2>
+                    </div>
+                  </a>
+                </article>
+                <article
+                  class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                  <a>
+                    <div class="relative flex items-end overflow-hidden rounded-xl mt-8">
+                      <img src="../../assets/sepatu.png" />
+                    </div>
+                    <div class="mt-4 p-2">
+                      <h2 class="text-slate-900 text-xl flex justify-center font-bold">Sepatu</h2>
+                    </div>
+                  </a>
+                </article>
+                <article
+                  class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                  <a>
+                    <div class="relative flex items-end overflow-hidden rounded-xl">
+                      <img src="../../assets/matras.png" />
+                    </div>
+                    <div class="mt-1 p-2">
+                      <h2 class="text-slate-900 text-xl flex justify-center font-bold">Alat Lainnya</h2>
+                    </div>
+                  </a>
+                </article> -->
+              </div>
+            </section>
+          </template>
+          <template v-else>
+            <p>
+              untuk lihat kategori barang, harus login ya
+            </p>
+          </template>
+        </div>
+      </section>
+    </section>
+    <section class="text-gray-600 body-font">
+      <section class="container px-5 py-8 mx-auto">
+        <div class="flex flex-wrap justify-center">
+          <div class="w-full flex justify-center">
+            <h2 class="text-2xl tracking-tight font-bold text-gray-900">
               Our Products!
             </h2>
           </div>
           <!-- Card Kategori -->
-          <section class="py-2 bg-white-100">
-            <div class="mx-auto grid max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-              <article
-                class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
-                <a>
-                  <div class="relative flex items-end overflow-hidden rounded-xl mt-8">
-                    <img src="https://freepngimg.com/download/party/146384-camp-tent-download-hq.png" />
-                  </div>
-                  <div class="mt-4 p-2">
-                    <h2 class="text-slate-900 text-xl flex justify-center font-bold">Tenda</h2>
-                  </div>
-                </a>
-              </article>
-              <article
-                class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
-                <a>
-                  <div class="relative flex items-end overflow-hidden rounded-xl">
-                    <img src="https://png.monster/wp-content/uploads/2022/03/png.monster-1015.png" />
-                  </div>
-                  <div class="mt-1 p-2">
-                    <h2 class="text-slate-900 text-xl flex justify-center font-bold">Tas</h2>
-                  </div>
-                </a>
-              </article>
-              <article
-                class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
-                <a>
-                  <div class="relative flex items-end overflow-hidden rounded-xl">
-                    <img src="../../assets/stovecamp.png" />
-                  </div>
-                  <div class="mt-1 p-2">
-                    <h2 class="text-slate-900 text-xl flex justify-center font-bold">Alat Masak</h2>
-                  </div>
-                </a>
-              </article>
-              <article
-                class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
-                <a>
-                  <div class="relative flex items-end overflow-hidden rounded-xl mt-8">
-                    <img src="../../assets/sepatu.png" />
-                  </div>
-                  <div class="mt-4 p-2">
-                    <h2 class="text-slate-900 text-xl flex justify-center font-bold">Sepatu</h2>
-                  </div>
-                </a>
-              </article>
-              <article
-                class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
-                <a>
-                  <div class="relative flex items-end overflow-hidden rounded-xl">
-                    <img src="../../assets/matras.png" />
-                  </div>
-                  <div class="mt-1 p-2">
-                    <h2 class="text-slate-900 text-xl flex justify-center font-bold">Alat Lainnya</h2>
-                  </div>
-                </a>
-              </article>
-            </div>
-          </section>
+          <template v-if="token">
+            <section class="py-2 bg-white-100">
+              <div class="mx-auto grid max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                <template v-if="!barang.length">
+                  kosong ngab
+                </template>
+                <template v-else v-for="data in barang">
+                  <article
+                    class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                    <a>
+                      <div class="relative flex items-end overflow-hidden rounded-xl mt-8">
+                        <img :src="data.foto" />
+                      </div>
+                      <div class="mt-4 p-2">
+                        <h2 class="text-slate-900 text-xl flex justify-center font-bold">
+                          {{ data.nama }}
+                        </h2>
+                        <p class="text-slate-500 text-xl flex justify-center">
+                          qty: {{ data.stok }}
+                        </p>
+                        <h2 class="text-slate-900 text-xl flex justify-center font-bold">
+                          {{ data.harga }}
+                        </h2>
+                        <button @click="addKeranjang(data.id)"
+                          class="md:w-36 bg-blue-600 dark:bg-blue-100 text-white dark:text-gray-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-blue-500 dark:hover:bg-gray-200 transition ease-in-out duration-300">
+                          + keranjang
+                        </button>
+                      </div>
+                    </a>
+                  </article>
+                </template>
+              </div>
+            </section>
+          </template>
+          <template v-else>
+            <p>
+              untuk lihat alat dan barang, harus login ya
+            </p>
+          </template>
         </div>
       </section>
     </section>
@@ -361,17 +423,26 @@
 </template>
 
 <script>
+import axios from 'axios'
 import api from "../../api.js";
-
+import Cookies from 'js-cookie'
 export default {
+  data() {
+    return {
+      token: Cookies.get('token'),
+      kategori: [],
+      barang: []
+    }
+  },
   // data() {
   //   return {
   //     dataTenda: [],
   //   };
   // },
-  // created() {
-  //   this.loadData();
-  // },
+  created() {
+    this.getKategori();
+    this.getBarang()
+  },
   methods: {
     // loadData() {
     //   api.get("tenda", this.queryData).then((respon) => {
@@ -384,6 +455,57 @@ export default {
     // },
     mulai: function () {
       this.$router.push("/barang");
+    },
+    addKeranjang(id) {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      };
+
+      const bodyParams = {
+        barang_id: id
+      };
+
+      axios.post('http://integrasiautama.my.id/api/keranjang', bodyParams, config)
+        .then((response) => {
+          this.$swal({
+            icon: 'success',
+            title: response.data.pesan
+          })
+          window.location.reload()
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getKategori() {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      };
+      axios.get('http://integrasiautama.my.id/api/kategori', config)
+        .then((response) => {
+          this.kategori = response.data.data
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getBarang() {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      };
+      axios.get('http://integrasiautama.my.id/api/barang', config)
+        .then((response) => {
+          this.barang = response.data.data
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

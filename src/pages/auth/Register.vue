@@ -17,7 +17,7 @@
                 <!-- <button @doClick="onSave" type="submit"
                     class="w-full text-center py-3 rounded bg-indigo-500 text-white hover:bg-indigo-600 focus:outline-none my-1">Create
                     Account!</button> -->
-                <my-button class="w-full text-lg" @doClick="onSave" warnanya="bg-indigo-500" warnatext="text-white"
+                <my-button class="w-full text-lg" @doClick="register" warnanya="bg-indigo-500" warnatext="text-white"
                     warnahover="bg-indigo-600" label="Create Account!" />
 
                 <div class="text-center text-sm text-grey-dark mt-4">
@@ -64,6 +64,7 @@
 </template>
     
 <script>
+import axios from 'axios'
 import { defineComponent } from "vue";
 import api from "../../api.js";
 import FormInput from "./../../components/FormInput.vue";
@@ -119,6 +120,32 @@ export default defineComponent({
             this.formData.email = "";
             this.formData.password = "";
         },
+        register(){
+            const pesan = "Maaf, Terjadi Kesalahan Dalam Permintaan Request"
+            axios.post('http://integrasiautama.my.id/api/register',{
+                name: this.formData.name,
+                email: this.formData.email,
+                password: this.formData.password
+            }).then((response)=>{
+                if(response.data.message === pesan){
+                    this.handleGalat(response.data.message)
+                } else{
+                    this.handleSuccess(response.data.pesan)
+                }
+            })
+        },
+        handleSuccess(message){
+            this.$swal({
+                icon: 'success',
+                title: message
+            })
+        },
+        handleGalat(message){
+            this.$swal({
+                icon: 'error',
+                title: message
+            })
+        }
     },
 });
 </script>

@@ -12,7 +12,7 @@ import BarangAdmin from "./../pages/admin/barang/BrowseBarang.vue";
 import DetailBarang from "./../pages/admin/barang/DetailBarang.vue";
 import Pesanan from "./../pages/admin/pesanan/BrowsePesanan.vue";
 import Bank from "./../pages/admin/bank/BrowseBank.vue";
-
+import Cookies from "js-cookie";
 // USER
 import Dashboard from "./../pages/user/Dashboard.vue";
 import GaleriUser from "./../pages/user/GaleriUser.vue";
@@ -119,10 +119,9 @@ const routes = [
         meta: { layout: "user",requiredLogin: false},
     },
     {
-        path: "/keranjang",
+        path: "/keranjang/:idKeranjang",
         name: "Keranjang",
         component: Keranjang,
-        meta: { layout: "user",requiredLogin: true},
     },
     {
         path: "/pembayaran",
@@ -137,30 +136,41 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach(async (to, from, next) => {
-    if (to.matched.some((record) => record.meta.requiredLogin)) {
-        if (store.getters['auth/isLoggedIn']) {
-            const user = store.getters['auth/dataUser']
-            if (user.role.name === 'user') {
-                next();
-                return;
-            } else if ((user.role.name === 'admin')) {
-                next();
-                return;
-            } else if (user.role.name === 'super_admin') {
-                next();
-                return;
-            } else {
-                next('/buathalaman access forbidden');
-            }
+// router.beforeEach(async (to, from, next) => {
+//     if (to.matched.some((record) => record.meta.requiredLogin)) {
+//         if (store.getters['auth/isLoggedIn']) {
+//             const user = store.getters['auth/dataUser']
+//             if (user.role.name === 'user') {
+//                 next();
+//                 return;
+//             } else if ((user.role.name === 'admin')) {
+//                 next();
+//                 return;
+//             } else if (user.role.name === 'super_admin') {
+//                 next();
+//                 return;
+//             } else {
+//                 next('/buathalaman access forbidden');
+//             }
 
-            next();
-            return;
-        }
-        next("/login");
+//             next();
+//             return;
+//         }
+//         next("/login");
+//     } else {
+//         next();
+//     }
+// });
+const allowedRoutes = ['Login'];
+
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = Cookies.get('token') != null;
+  
+    if (allowedRoutes.includes(to.name) && isAuthenticated) {
+      next({ name: 'Home' }); 
     } else {
-        next();
+      next(); 
     }
-});
+  });
 
 export default router;
