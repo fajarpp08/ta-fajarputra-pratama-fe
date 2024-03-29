@@ -36,7 +36,7 @@
             <!-- <span class="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">New</span> -->
           </router-link>
         </li>
-        <li>
+        <!-- <li>
           <router-link to="/pesanan"
             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
             <span class="inline-flex justify-center items-center ml-4">
@@ -48,7 +48,7 @@
             </span>
             <span class="ml-2 text-sm tracking-wide truncate">Pesanan</span>
           </router-link>
-        </li>
+        </li> -->
         <li>
           <router-link to="/bank"
             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
@@ -65,7 +65,7 @@
           </router-link>
         </li>
         <!-- Sidebar Admin -->
-        <li v-if="dataUser.role_id !== null && dataUser.role.name === 'super_admin'">
+        <li>
           <router-link to="addadmin"
             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
             <span class="inline-flex justify-center items-center ml-4">
@@ -139,7 +139,7 @@
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
               </svg>
             </span>
-            <span class="ml-2 text-sm tracking-wide truncate">Transaksi</span>
+            <span class="ml-2 text-sm tracking-wide truncate">Riwayat Transaksi</span>
           </router-link>
         </li>
 

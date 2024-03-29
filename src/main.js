@@ -7,56 +7,20 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 
-//quill editor
-// import 'quill/dist/quill.snow.css';
-// import Quill from 'quill';
-// handle allow image alignment styles on quill
 const ImageFormatAttributesList = [
     'alt',
     'height',
     'width',
     'style'
 ];
-//import BlotFormatter from 'quill-blot-formatter' <--- Error, if as module
-// import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter';
-// import ImageUploader from "quill-image-uploader";
-// Quill.register("modules/imageUploader", ImageUploader);
-// Quill.register("modules/blotFormatter", BlotFormatter);
-
-// const BaseImageFormat = Quill.import('formats/image');
-// class ImageFormat extends BaseImageFormat {
-//     static formats(domNode) {
-//         return ImageFormatAttributesList.reduce(function(formats, attribute) {
-//             if (domNode.hasAttribute(attribute)) {
-//                 formats[attribute] = domNode.getAttribute(attribute);
-//             }
-//             return formats;
-//         }, {});
-//     }
-//     format(name, value) {
-//         if (ImageFormatAttributesList.indexOf(name) > -1) {
-//             if (value) {
-//                 this.domNode.setAttribute(name, value);
-//             } else {
-//                 this.domNode.removeAttribute(name);
-//             }
-//         } else {
-//             super.format(name, value);
-//         }
-//     }
-// }
-// Quill.register(ImageFormat, true);
-
-// import FormQuillEditor from './components/FormQuillEditor.vue'
-
-// end handle allow image alignment styles on quill editor
-
-
 
 import axios from 'axios'
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
+// axios.defaults.baseURL ='http://integrasiautama.my.id/api/';
+// axios.defaults.baseURL ='https://fajar.garasicode.com/api/';
 axios.defaults.baseURL ='http://127.0.0.1:8000/api/';
+
 
 const getToken = localStorage.getItem('secure_app');
 //console.log("token :"+getToken);
@@ -76,8 +40,6 @@ app.component('empty-layout', EmptyLayout);
 app.component('my-button', MyButton);
 app.component('user-layout', UserLayout);
 app.component('table-pagination', TablePagination);
-
-// app.component("form-quill-editor", FormQuillEditor);
 
 store.dispatch('auth/isValidLogin')
     .then(() => {

@@ -1,35 +1,22 @@
 <template>
   <div v-if="show" ref="formAdmin">
     <form class="flex flex-col justify-center w-1/2">
-      <form-input v-model="formData.name" :error="errors.name"
-        :border="errors.name ? 'border-red-400' : 'border-gray-400'" placeholder="Masukkan Nama" showlabel=""
-        label="Nama" />
-      <form-input v-model="formData.email" :error="errors.email"
-        :border="errors.name ? 'border-red-400' : 'border-gray-400'" placeholder="Masukkan Email" showlabel=""
-        label="Email" />
-      <form-input v-model="formData.password" :error="errors.password"
-        :border="errors.password ? 'border-red-400' : 'border-gray-400'" placeholder="Masukkan Password" showlabel=""
-        label="Password" />
-      <form-input v-model="formData.role_id" :error="errors.role_id"
-        :border="errors.role_id ? 'border-red-400' : 'border-gray-400'" placeholder="Masukkan Role" showlabel=""
-        label="Role" />
+      <form-input v-model="form.name" placeholder="Masukkan Nama" showlabel="" label="Nama" />
+      <form-input v-model="form.email" placeholder="Masukkan Email" showlabel="" label="Email" />
+      <form-input v-model="form.password" placeholder="Masukkan Password" showlabel="" label="Password" />
       <div class="inline-flex py-2">
         <my-button @doClick="clearForm" warnanya="bg-yellow-500" warnatext="text-white" warnahover="hover:bg-yellow-600"
           label="Kembali" />
-        <my-button @doClick="onSave" warnanya="bg-green-500" warnatext="text-white" warnahover="hover:bg-green-600"
+        <my-button @doClick="postAdmin" warnanya="bg-green-500" warnatext="text-white" warnahover="hover:bg-green-600"
           label="Simpan" />
-        <!-- ini pakai komponen button standart -->
-        <!-- <button @click="onSave" type="button" class="text-white bg-indigo-500 border-0 mr-4 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Simpan</button>-->
-        <!--  <button @click="clearForm" type="button" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Kembali</button>-->
-        <!--- ini pakai komponen button custom style -->
-        <!-- <button @click="onSave" type="button" class="my-button-green">Simpan</button> -->
-        <!-- <button @click="onSave" type="button" class="my-button-yellow">Kembali</button> -->
       </div>
     </form>
   </div>
 </template>
   
 <script>
+import Cookies from 'js-cookie'
+import axios from 'axios';
 import { defineComponent } from "vue";
 import api from "../../../api.js";
 import FormInput from "./../../../components/FormInput.vue";
@@ -41,29 +28,29 @@ export default defineComponent({
     return {
       errors: [],
       show: false,
-      formData: {
-        id: null,
-        name: "",
-        email: "",
-        password: "",
-        role_id: "",
+      token: Cookies.get('token'),
+      form: {
+        name: '',
+        email: '',
+        password: '',
+        role_id: '2',
       },
     };
   },
   methods: {
     newData() {
       (this.errors = []), (this.show = true);
-      this.formData.id = null;
-      this.formData.name = "";
-      this.formData.email = "";
-      this.formData.role_id = "";
+      // this.formData.id = null;
+      this.form.name = "";
+      this.form.email = "";
+      this.form.role_id = "";
     },
     selectData(data) {
       this.show = true;
-      this.formData.id = data.id;
-      this.formData.name = data.name;
-      this.formData.email = data.email;
-      this.formData.role_id = data.role_id;
+      this.form.id = data.id;
+      this.form.name = data.name;
+      this.form.email = data.email;
+      this.form.role_id = data.role_id;
     },
     onSave() {
       if (this.formData.id != null) {
@@ -96,6 +83,33 @@ export default defineComponent({
           });
       }
     },
+    postAdmin() {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      };
+
+      const data = {
+        name: this.form.name,
+        email: this.form.email,
+        password: this.form.password,
+        role_id: '2'
+      };
+
+      axios.post('http://127.0.0.1:8000/api/user/admin', data, config)
+        .then((response) => {
+          this.$swal({
+            icon: 'success',
+            title: 'Berhasil Tambah Admin'
+          })
+          this.clearForm()
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+
     goBack() {
       // Kembali ke halaman sebelumnya
       window.history.back();

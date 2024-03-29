@@ -25,23 +25,16 @@
             </li> -->
             <Dropdown />
 
-            <router-link to="/">
-              <a class="text-sm text-gray-900 hover:text-white font-bold">Gallery</a>
+            <router-link to="/pembayaran">
+              <a class="text-sm text-gray-900 hover:text-white font-bold">Riwayat Pesanan</a>
             </router-link>
-            <router-link to="/"><a class="text-sm text-gray-900 hover:text-white font-bold">Services</a></router-link>
+            <!-- <router-link to="/"><a class="text-sm text-gray-900 hover:text-white font-bold">Services</a></router-link>
             <router-link to="/"><a class="text-sm text-gray-900 hover:text-white font-bold">About
-                Us!</a></router-link>
+                Us!</a></router-link> -->
           </ul>
         </div>
       </div>
       <!-- End Menu Header -->
-
-      <!-- phone number -->
-      <!-- <div class="ml-auto md:w-48 hidden sm:flex flex-col place-items-end">
-        <span class="font-bold md:text-xl">0812 1817 3646</span>
-        <span class="font-semibold text-sm text-gray-400">Support 24/7</span>
-      </div> -->
-      <!-- end phone number -->
 
       <!-- buttons -->
       <nav class="contents">
@@ -145,8 +138,9 @@ export default defineComponent({
       // });
     },
     logout() {
-      axios.get('http://integrasiautama.my.id/api/login', {}).then((response) => {
+      axios.get('http://127.0.0.1:8000/api/login', {}).then((response) => {
         Cookies.remove('token')
+        Cookies.remove('role')
         window.location = '/'
       })
     },
@@ -156,7 +150,7 @@ export default defineComponent({
           Authorization: `Bearer ${this.token}`
         }
       }
-      axios.get('http://integrasiautama.my.id/api/keranjang', config).then((response) => {
+      axios.get('http://127.0.0.1:8000/api/keranjang', config).then((response) => {
         this.keranjang = response.data.data
       })
     }

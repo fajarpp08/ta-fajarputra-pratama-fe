@@ -122,11 +122,11 @@ export default defineComponent({
         },
         register(){
             const pesan = "Maaf, Terjadi Kesalahan Dalam Permintaan Request"
-            axios.post('http://integrasiautama.my.id/api/register',{
+            axios.post('http://127.0.0.1:8000/api/register',{
                 name: this.formData.name,
                 email: this.formData.email,
                 password: this.formData.password
-            }).then((response)=>{
+            }).then((response)=> {
                 if(response.data.message === pesan){
                     this.handleGalat(response.data.message)
                 } else{

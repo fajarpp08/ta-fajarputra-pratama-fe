@@ -25,6 +25,7 @@ export default {
                 })
         })
     },
+    
 
     async put(endpoint, params) {
         return await new Promise((resolve, reject) => {

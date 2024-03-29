@@ -9,9 +9,9 @@
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div class="overflow-hidden">
                 <div class="w-full inline-flex" v-if="mode == 'browse'">
-                  <input v-model="queryData.name" @change="onSearching()" placeholder="Masukan nama untuk pencarian"
-                    class="w-3/5 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                  <div class="w-2/5 item-right flex justify-end ml-auto">
+                  <!-- <input v-model="queryData.name" @change="onSearching()" placeholder="Masukan nama untuk pencarian"
+                    class="w-3/5 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" /> -->
+                  <div class="w-full item-right flex justify-start ml-auto">
                     <my-button @doClick="addData" warnanya="bg-blue-500" warnatext="text-white"
                       warnahover="hover:bg-blue-700" label="Tambah Data" />
                   </div>

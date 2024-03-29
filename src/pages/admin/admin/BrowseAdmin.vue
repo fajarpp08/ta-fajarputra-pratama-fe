@@ -8,9 +8,9 @@
         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
           <div class="overflow-hidden">
             <div class="w-full inline-flex" v-if="mode == 'browse'">
-              <input v-model="queryData.name" @change="onSearching()" placeholder="Masukan nama untuk pencarian"
-                class="w-2/5 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-              <div class="w-3/5 item-right flex justify-end ml-auto">
+              <!-- <input v-model="queryData.name" @change="onSearching()" placeholder="Masukan nama untuk pencarian"
+                class="w-2/5 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" /> -->
+              <div class="w-full item-right flex justify-start ml-auto">
                 <my-button @doClick="addData" warnanya="bg-blue-500" warnatext="text-white" warnahover="hover:bg-blue-700"
                   label="Tambah Data" />
               </div>
@@ -38,9 +38,9 @@
                     {{ a.role.name }}
                   </td>
                   <td class="whitespace-nowrap px-6 py-4">
-                    <my-button @doClick="onSelect(a)" warnanya="bg-gray-100" warnatext="text-blue-600"
-                      warnahover="hover:bg-gray-200" label="Pilih" />
-                    <my-button @doClick="onDelete(a)" warnanya="bg-red-100" warnatext="text-red-600"
+                    <!-- <my-button @doClick="onSelect(a)" warnanya="bg-gray-100" warnatext="text-blue-600"
+                      warnahover="hover:bg-gray-200" label="Pilih" /> -->
+                    <my-button @doClick="deleteAdmin(a.id)" warnanya="bg-red-100" warnatext="text-red-600"
                       warnahover="hover:bg-red-200" label="Hapus" />
                   </td>
                 </tr>
@@ -63,6 +63,8 @@
 </template>
   
 <script>
+import axios from 'axios'
+import Cookies from 'js-cookie'
 import { defineComponent, computed } from "vue";
 import api from "../../../api.js";
 import FormAdmin from "./FormAdmin.vue";
@@ -83,6 +85,7 @@ export default defineComponent({
         order_col: "",
         order_type: "",
       },
+      token: Cookies.get('token'),
       paginationData: Object,
     };
   },
@@ -113,14 +116,46 @@ export default defineComponent({
     },
 
     loadData() {
-      api.get("user", this.queryData).then((respon) => {
-        this.dataUser = respon.data.records;
-        if (typeof respon.data.paging === "object") {
-          this.paginationData = respon.data.paging;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`
         }
-        console.log(this.paginationData);
-      });
+      }
+      axios.get('http://127.0.0.1:8000/api/user/admin', config).then((response)=>{
+        this.dataUser = response.data.data
+        console.log(response);
+      }).catch((err)=>{
+        console.log(err);
+      })
+    },loadData() {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }
+      axios.get('http://127.0.0.1:8000/api/user/admin', config).then((response)=>{
+        this.dataUser = response.data.data
+        console.log(response);
+      }).catch((err)=>{
+        console.log(err);
+      })
     },
+    deleteAdmin(id){
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }
+      axios.delete(`http://127.0.0.1:8000/api/user/admin/${id}/delete`, config).then((response)=>{
+        this.$swal({
+          icon: 'success',
+          title: 'Berhasil Hapus Data'
+        })
+        this.loadData()
+      }).catch((err)=>{
+        console.log(err);
+      })
+    }
   },
 });
 </script>

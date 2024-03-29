@@ -119,19 +119,28 @@ export default defineComponent({
     submitLogin() {
       const pesanLogin = 'Berhasil Login'
       const pesanGalat = 'Maaf, Terjadi Kesalahan Dalam Permintaan Request'
-      axios.post('http://integrasiautama.my.id/api/login', {
+      const allowRoutes = [1, 2]
+      axios.post('http://127.0.0.1:8000/api/login', {
         email: this.formData.email,
         password: this.formData.password
       }).then((response) => {
-        if (response.data.status == pesanGalat) {
-            this.handleGalat(response.data.pesan)
-        } else if(response.data.success == false) {
-            this.handleGalat(response.data.message)
-        } else if(response.data.pesan == pesanLogin) {
+        if (response.data.pesan == pesanLogin) {
+          this.handleSuccess('berhasil login')
           Cookies.set('token', response.data.data.token)
-          this.handleSuccess(response.data.pesan)
-          window.location = '/'
+          Cookies.set('role', response.data.data.role_id)
+          if (allowRoutes.includes(response.data.data.role_id)) {
+            window.location = '/homeadmin'
+            console.log('admin');
+            console.log(response.data.data.role_id);
+          } else {
+            window.location = '/'
+            console.log(response.data.data.role_id);
+            console.log('user');
+          }
+        } else {
+          this.handleGalat('password salah')
         }
+
       }).catch((err) => {
         console.log(err);
       })

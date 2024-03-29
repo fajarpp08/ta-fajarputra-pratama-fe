@@ -15,7 +15,6 @@ import AppSidebar from "../admin/AppSidebar.vue";
       <app-header />
       <app-sidebar />
       <div class="h-full md:mt-16 md:ml-64 relative min-h-screen">
-        <!-- Letak Kontent-->
         <router-view :key="$route.path" />
       </div>
     </div>

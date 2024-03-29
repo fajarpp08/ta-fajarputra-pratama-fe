@@ -36,14 +36,14 @@
           <section class="py-2 bg-white-100">
             <div class="mx-auto grid max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
               <template v-if="!kategori.length">
-                Kategori Barang Kosong
+                kosongggggg
               </template>
               <template v-else v-for="data in kategori">
                 <article
                   class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
                   <a>
-                    <div class="relative flex items-end overflow-hidden rounded-xl mt-4">
-                      <img src="../../assets/kategori.png" />
+                    <div class="relative flex items-end overflow-hidden rounded-xl mt-8">
+                      <img src="https://freepngimg.com/download/party/146384-camp-tent-download-hq.png" />
                     </div>
                     <div class="mt-4 p-2">
                       <h2 class="text-slate-900 text-xl flex justify-center font-bold">
@@ -53,15 +53,55 @@
                   </a>
                 </article>
               </template>
-          
+              <!-- <article
+                  class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                  <a>
+                    <div class="relative flex items-end overflow-hidden rounded-xl">
+                      <img src="https://png.monster/wp-content/uploads/2022/03/png.monster-1015.png" />
+                    </div>
+                    <div class="mt-1 p-2">
+                      <h2 class="text-slate-900 text-xl flex justify-center font-bold">Tas</h2>
+                    </div>
+                  </a>
+                </article>
+                <article
+                  class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                  <a>
+                    <div class="relative flex items-end overflow-hidden rounded-xl">
+                      <img src="../../assets/stovecamp.png" />
+                    </div>
+                    <div class="mt-1 p-2">
+                      <h2 class="text-slate-900 text-xl flex justify-center font-bold">Alat Masak</h2>
+                    </div>
+                  </a>
+                </article>
+                <article
+                  class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                  <a>
+                    <div class="relative flex items-end overflow-hidden rounded-xl mt-8">
+                      <img src="../../assets/sepatu.png" />
+                    </div>
+                    <div class="mt-4 p-2">
+                      <h2 class="text-slate-900 text-xl flex justify-center font-bold">Sepatu</h2>
+                    </div>
+                  </a>
+                </article>
+                <article
+                  class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                  <a>
+                    <div class="relative flex items-end overflow-hidden rounded-xl">
+                      <img src="../../assets/matras.png" />
+                    </div>
+                    <div class="mt-1 p-2">
+                      <h2 class="text-slate-900 text-xl flex justify-center font-bold">Alat Lainnya</h2>
+                    </div>
+                  </a>
+                </article> -->
             </div>
           </section>
         </div>
       </section>
     </section>
-    <!-- End Kategori Barang -->
-
-    <!-- Barang -->
     <section class="text-gray-600 body-font">
       <section class="container px-5 py-8 mx-auto">
         <div class="flex flex-wrap justify-center">
@@ -78,51 +118,37 @@
               </template>
               <template v-else v-for="data in barang">
                 <article
-                  class="rounded-2xl w-full overflow-hidden bg-gray-200 p-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                  class="rounded-2xl bg-gray-200 p-3 mx-3 my-3 shadow-xl hover:shadow-xl hover:transform hover:scale-105 duration-300">
                   <a>
-                    <div class="lg:h-48 md:h-36 w-full object-cover object-fit overflow-hidden rounded-xl mt-2">
+                    <div class="relative flex items-end overflow-hidden rounded-xl mt-8">
                       <img :src="data.foto" />
-                      
-                      <!-- :src="'https://fajar.garasicode.com/' + item.path" -->
                     </div>
                     <div class="mt-4 p-2">
-                      <h2 class="text-slate-900 text-xl flex justify-start font-bold">
+                      <h2 class="text-slate-900 text-xl flex justify-center font-bold">
                         {{ data.nama }}
                       </h2>
-                      <p class="text-slate-500 text-xs flex justify-start">
-                        {{ data.deskripsi }}
+                      <p class="text-slate-500 text-xl flex justify-center">
+                        qty: {{ data.stok }}
                       </p>
-                      <p class="text-slate-500 text-md flex justify-start">
-                        Stok : {{ data.stok }}
-                      </p>
-                      <div class="mt-3 flex items-end justify-between">
-                        <p class="text-lg font-bold text-gray-900 w-4/6 font-mono">{{ data.harga }}</p>
+                      <h2 class="text-slate-900 text-xl flex justify-center font-bold">
+                        {{ data.harga }}
+                      </h2>
 
-                        <template v-if="token">
-                          <div
-                            class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                              stroke="currentColor" class="h-8 w-8">
-                              <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                            </svg>
+                      <template v-if="token">
+                        <button @click="addKeranjang(data.id)"
+                          class="md:w-36 bg-blue-600 dark:bg-blue-100 text-white dark:text-gray-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-blue-500 dark:hover:bg-gray-200 transition ease-in-out duration-300">
+                          + keranjang
+                        </button>
+                      </template>
 
-                            <button @click="addKeranjang(data.id)" class="text-sm">Add to cart</button>
-                          </div>
-                        </template>
-
-                        <template v-else>
-                          <router-link to="/login" class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                              stroke="currentColor" class="h-8 w-8">
-                              <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                            </svg>
-
-                            <button class="text-sm">Add to cart</button>
-                          </router-link>
-                        </template>
-                      </div>
+                      <template v-else>
+                        <router-link to="/login">
+                          <button
+                            class="md:w-36 bg-blue-600 dark:bg-blue-100 text-white dark:text-gray-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-blue-500 dark:hover:bg-gray-200 transition ease-in-out duration-300">
+                            + keranjang
+                          </button>
+                        </router-link>
+                      </template>
 
                     </div>
                   </a>
@@ -133,7 +159,7 @@
         </div>
       </section>
     </section>
-    <!-- End Barang -->
+    <!-- End Kategori Barang -->
 
     <!-- Our Gallery -->
     <section class="text-gray-600 body-font">
@@ -266,7 +292,7 @@
                 </div>
                 <div class="flex-grow pl-4">
                   <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">Checkout</h2>
-                  <p class="leading-relaxed">Lakukan Checkout barang yang sudah anda masukkan ke dalam keranjang dan masukkan data pemesanan yang diperlukan.</p>
+                  <p class="leading-relaxed">Lakukan Checkout barang yang sudah anda masukkan ke dalam keranjang.</p>
                 </div>
               </div>
               <div class="flex relative">
@@ -280,7 +306,7 @@
                 </div>
                 <div class="flex-grow pl-4">
                   <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">Pembayaran</h2>
-                  <p class="leading-relaxed">Lakukan pembayaran sesuai dengan tagihan yang sudah ditentukan dan lakukan upload bukti pembayaran.</p>
+                  <p class="leading-relaxed">Lakukan pembayaran sesuai dengan tagihan yang sudah ditentukan.</p>
                 </div>
               </div>
             </div>
@@ -426,7 +452,7 @@ export default {
         barang_id: id
       };
 
-      axios.post('http://127.0.0.1:8000/api/keranjang', bodyParams, config)
+      axios.post('http://integrasiautama.my.id/api/keranjang', bodyParams, config)
         .then((response) => {
           this.$swal({
             icon: 'success',
@@ -439,7 +465,7 @@ export default {
         });
     },
     getKategori() {
-      axios.get('http://127.0.0.1:8000/api/kategori')
+      axios.get('http://integrasiautama.my.id/api/kategori')
         .then((response) => {
           this.kategori = response.data.data
         })
@@ -448,8 +474,7 @@ export default {
         });
     },
     getBarang() {
-      axios.get('http://127.0.0.1:8000/api/barang')
-      
+      axios.get('http://integrasiautama.my.id/api/barang')
         .then((response) => {
           this.barang = response.data.data
         })

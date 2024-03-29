@@ -8,18 +8,24 @@ import Register from "./../pages/auth/Register.vue";
 import EmailVerification from "./../pages/auth/EmailVerification.vue";
 import DashboardAdmin from "./../pages/admin/dashboard/DashboardAdmin.vue";
 import Kategori from "./../pages/admin/kategori/BrowseKategori.vue";
+import EditKategori from "./../pages/admin/kategori/editKategori.vue"
 import BarangAdmin from "./../pages/admin/barang/BrowseBarang.vue";
 import DetailBarang from "./../pages/admin/barang/DetailBarang.vue";
+import EditBarang from "./../pages/admin/barang/EditBarang.vue";
 import Pesanan from "./../pages/admin/pesanan/BrowsePesanan.vue";
 import Bank from "./../pages/admin/bank/BrowseBank.vue";
+import qty_tambah from './../pages/admin/barang/TambahQtyBarang.vue'
+import qty_kurang from './../pages/admin/barang/KurangQtyBarang.vue'
 import Cookies from "js-cookie";
+
 // USER
 import Dashboard from "./../pages/user/Dashboard.vue";
 import GaleriUser from "./../pages/user/GaleriUser.vue";
 import Barang from "./../pages/user/Barang.vue";
 import Keranjang from "./../pages/user/Keranjang.vue";
 import Pembayaran from "./../pages/user/Pembayaran.vue";
-
+import CheckoutPembayaran from "./../pages/user/CheckoutPembayaran.vue";
+import DetailPembayaran from "./../pages/user/DetailPembayaran.vue";
 import store from "../store";
 
 
@@ -62,9 +68,33 @@ const routes = [
         meta: { layout: "admin",requiredLogin: true},
     },
     {
+        path: "/kategori/:id",
+        name: "Edit Kategori",
+        component: EditKategori,
+        meta: { layout: "admin",requiredLogin: true},
+    },
+    {
         path: "/barangadmin",
         name: "BarangAdmin",
         component: BarangAdmin,
+        meta: { layout: "admin",requiredLogin: true},
+    },
+    {
+        path: "/barangadmin/:id/edit",
+        name: "Edit Barang",
+        component: EditBarang,
+        meta: { layout: "admin",requiredLogin: true},
+    },
+    {
+        path: "/barangadmin/tambah_qty/:id",
+        name: "Tambah Qty Barang",
+        component: qty_tambah,
+        meta: { layout: "admin",requiredLogin: true},
+    },
+    {
+        path: "/barangadmin/kurang_qty/:id",
+        name: "Kurang Qty Barang",
+        component: qty_kurang,
         meta: { layout: "admin",requiredLogin: true},
     },
     {
@@ -129,6 +159,23 @@ const routes = [
         component: Pembayaran,
         meta: { layout: "user",requiredLogin: true},
     },
+    {
+        path: "/checkout_pembayaran/:id",
+        name: "Checkout Pembayaran",
+        component: CheckoutPembayaran,
+        meta: { layout: "user",requiredLogin: true},
+    },
+    {
+        path: "/detail_pembayaran/:id",
+        name: "Detail Pembayaran",
+        component: DetailPembayaran,
+        meta: { layout: "user",requiredLogin: true},
+    },
+    {
+        path: '/access-denied',
+        name: 'Access Denied',
+        component: ()=>import('../pages/user/AcceessDenied.vue')
+    }
 ];
 
 const router = createRouter({
@@ -136,41 +183,48 @@ const router = createRouter({
     routes,
 });
 
-// router.beforeEach(async (to, from, next) => {
-//     if (to.matched.some((record) => record.meta.requiredLogin)) {
-//         if (store.getters['auth/isLoggedIn']) {
-//             const user = store.getters['auth/dataUser']
-//             if (user.role.name === 'user') {
-//                 next();
-//                 return;
-//             } else if ((user.role.name === 'admin')) {
-//                 next();
-//                 return;
-//             } else if (user.role.name === 'super_admin') {
-//                 next();
-//                 return;
-//             } else {
-//                 next('/buathalaman access forbidden');
-//             }
-
-//             next();
-//             return;
-//         }
-//         next("/login");
-//     } else {
-//         next();
-//     }
-// });
 const allowedRoutes = ['Login'];
 
 router.beforeEach((to, from, next) => {
     const isAuthenticated = Cookies.get('token') != null;
-  
+    
     if (allowedRoutes.includes(to.name) && isAuthenticated) {
       next({ name: 'Home' }); 
     } else {
       next(); 
     }
   });
+  router.beforeEach((to, from, next) => {
+    const roleAdmin = [1, 2]; 
+    const roleUser = 3; 
+    const token = Cookies.get('token');
+    const routeUser = ["Keranjang", "Pembayaran", "Checkout Pembayaran", "Detail Pembayaran"];
+    const routeAdmin = ["HomeAdmin", "BarangAdmin", "Kategori", "Edit Kategori"];
 
+    if (routeUser.includes(to.name)) {
+        if (!token) {
+            next({ name: 'Login' });
+        } else {
+            const roles = Number(Cookies.get('role'));
+            if (roles === roleUser) {
+                next();
+            } else {
+                next({ name: 'Access Denied' });
+            }
+        }
+    } else if (routeAdmin.includes(to.name)) {
+        if (!token) {
+            next({ name: 'Login' });
+        } else {
+            const roles = Number(Cookies.get('role')); 
+            if (roleAdmin.includes(roles)) {
+                next();
+            } else {
+                next({ name: 'Access Denied' });
+            }
+        }
+    } else {
+        next();
+    }
+});
 export default router;

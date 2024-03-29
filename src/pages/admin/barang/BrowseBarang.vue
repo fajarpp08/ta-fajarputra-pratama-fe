@@ -9,9 +9,9 @@
           <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div class="overflow-hidden">
               <div class="w-full inline-flex" v-if="mode == 'browse'">
-                <input v-model="queryData.name" @change="onSearching()" placeholder="Masukan nama untuk pencarian"
-                  class="w-3/5 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                <div class="w-2/5 item-right flex justify-end ml-auto">
+                <!-- <input v-model="dataBarang.name" @change="onSearching()" placeholder="Masukan nama untuk pencarian"
+                  class="w-3/5 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" /> -->
+                <div class="w-full item-right flex justify-start ml-auto">
                   <my-button @doClick="addData" warnanya="bg-blue-500" warnatext="text-white"
                     warnahover="hover:bg-blue-700" label="Tambah Data" />
                 </div>
@@ -21,10 +21,11 @@
                 <thead class="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th scope="col" class="px-6 py-4">No</th>
-                    <th scope="col" class="px-6 py-4">Kategori</th>
                     <th scope="col" class="px-6 py-4">Name</th>
                     <th scope="col" class="px-6 py-4">Description</th>
+                    <th scope="col" class="px-6 py-4">Gambar</th>
                     <th scope="col" class="px-6 py-4">Harga</th>
+                    <th scope="col" class="px-6 py-4">Stok</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -32,28 +33,42 @@
                     <td class="whitespace-nowrap px-6 py-4 font-medium">
                       {{ index + 1 }}
                     </td>
-                    <td class="whitespace-nowrap px-6 py-4">{{ a.kategori.name }}</td>
-                    <td class="whitespace-nowrap px-6 py-4">{{ a.name }}</td>
+                    <td class="whitespace-nowrap px-6 py-4">{{ a.nama }}</td>
                     <td class="whitespace-nowrap px-6 py-4">
-                      {{ a.description }}
+                      {{ a.deskripsi }}
+                    </td>
+                    <td class="whitespace-nowrap px-6 py-4">
+                      <a :href="a.foto" target="_blank">
+                        <button
+                          class="bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded"
+                          type="button">Lihat</button>
+                      </a>
                     </td>
                     <td class="whitespace-nowrap px-6 py-4">
                       {{ a.harga }}
                     </td>
+                    <td>
+                      <div class="d-flex justify-content-center cursor-pointer">
+                        <p>
+                          <span @click="kurangQty(a.id)">
+                            -
+                          </span>
+                          {{ a.stok }}
+                          <span @click="tambahQty(a.id)">
+                            +
+                          </span>
+                        </p>
+                      </div>
+                    </td>
                     <td class="whitespace-nowrap px-6 py-4">
-                      <my-button @doClick="onSelect(a)" warnanya="bg-gray-100" warnatext="text-blue-600"
+                      <my-button @doClick="editBarang(a.id)" warnanya="bg-gray-100" warnatext="text-blue-600"
                         warnahover="hover:bg-gray-200" label="Edit" />
-                      <router-link :to="'/detailtenda/' + a.id">
+                      <!-- <router-link :to="'/detailtenda/' + a.id">
                         <my-button warnanya="bg-gray-100" warnatext="text-blue-600" warnahover="hover:bg-gray-200"
                           label="View" />
-                      </router-link>
-                      <my-button @Click="onDelete(a)" warnanya="bg-red-100" warnatext="text-red-600"
+                      </router-link> -->
+                      <my-button @Click="onDelete(a.id)" warnanya="bg-red-100" warnatext="text-red-600"
                         warnahover="hover:bg-red-200" label="Hapus" />
-                      <!-- <button class="my-button-blue">
-                        Test Komponen from style
-                      </button> -->
-                      <!-- <button @click="onSelect(a)" class="inline-flex text-blue-600 items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Pilih</button>-->
-                      <!-- <button  @click="onDelete(a)" class="inline-flex text-blue-600 items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Hapus</button>-->
                     </td>
                   </tr>
                 </tbody>
@@ -73,11 +88,11 @@
       </div>
     </div>
   </div>
-
-  
 </template>
   
 <script>
+import axios from "axios";
+import Cookies from 'js-cookie'
 import { defineComponent, computed } from "vue";
 import api from "../../../api.js";
 import FormBarang from "./FormBarang.vue";
@@ -98,10 +113,20 @@ export default defineComponent({
         order_col: "",
         order_type: "",
       },
+      token: Cookies.get('token'),
       paginationData: Object,
     };
   },
   methods: {
+    tambahQty(id) {
+      this.$router.push({ name: 'Tambah Qty Barang', params: { id: id } })
+    },
+    kurangQty(id) {
+      this.$router.push({ name: 'Kurang Qty Barang', params: { id: id } })
+    },
+    editBarang(id) {
+      this.$router.push({ name: 'Edit Barang', params: { id: id } })
+    },
     goBack() {
       // Kembali ke halaman sebelumnya
       window.history.back();
@@ -118,10 +143,21 @@ export default defineComponent({
       this.mode = "form";
       this.$refs["formBarang"].newData();
     },
-    onDelete(data) {
-      api.delete("barang/" + data.id).then((respon) => {
-        this.loadData();
-      });
+    onDelete(id) {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }
+      axios.delete(`http://127.0.0.1:8000/api/barang/${id}`, config).then((response) => {
+        this.$swal({
+          icon: 'success',
+          title: 'Berhasil Hapus Data'
+        })
+        this.loadData()
+      }).catch((err) => {
+        console.log(err);
+      })
     },
     onSelect(data) {
       this.mode = "form";
@@ -131,14 +167,21 @@ export default defineComponent({
       this.loadData();
     },
     loadData() {
-      api.get("barang", this.queryData).then((respon) => {
-        this.dataBarang = respon.data.records;
-        if (typeof respon.data.paging === "object") {
-          this.paginationData = respon.data.paging;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`
         }
-        console.log(this.paginationData);
-      });
+      }
+      axios.get('http://127.0.0.1:8000/api/barang', config).then((response) => {
+        console.log(response);
+        this.dataBarang = response.data.data
+      }).catch((err) => {
+        console.log(err);
+      })
     },
+  },
+  created() {
+    this.loadData()
   },
 });
 </script>

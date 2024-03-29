@@ -1,28 +1,15 @@
 <template>
     <div v-if="show" ref="formTenda">
         <form class="flex flex-col justify-center w-1/2">
-            <form-select @onSelect="kategoriChange" v-model="formData.kategori_id" :options="listKategori"
-                placeholder="Pilih Kategori" :error="errors.kategori_id" label="Kategori" showlabel="" />
-            <form-input v-model="formData.name" :error="errors.name"
+            <form-input v-model="form.name" :error="errors.name"
                 :border="errors.name ? 'border-red-400' : 'border-gray-400'" placeholder="Masukkan Nama" showlabel=""
                 label="Nama" />
-            <form-input v-model="formData.description" :error="errors.description"
+            <form-input v-model="form.description" :error="errors.description"
                 :border="errors.name ? 'border-red-400' : 'border-gray-400'" placeholder="Masukkan deskripsi" showlabel=""
                 label="Deskripsi" />
-            <form-input v-model="formData.harga" :error="errors.harga"
+            <form-input v-model="form.harga" :error="errors.harga"
                 :border="errors.name ? 'border-red-400' : 'border-gray-400'" placeholder="Masukkan harga" showlabel=""
                 label="Harga" />
-            <div v-if="imagePreview !== null" class="rounded-lg w-128 h-64 overflow-hidden">
-                <img alt="content" class="object-cover object-center h-full w-full my-12" :src="imagePreview" />
-            </div>
-
-            <!-- Bagian yang berbeda pada setiap kondisi -->
-            <div v-if="formData.id !== null && formData.image !== null && imagePreview === null"
-                class="rounded-lg w-128 h-64 overflow-hidden">
-                <img alt="content" class="object-cover object-center h-full w-full my-12"
-                    :src="'http://127.0.0.1:8000/' + formData.image" />
-            </div>
-
             <div class="flex flex-col mt-1">
                 <label class="text-xl">Gambar</label>
                 <input multiple type="file" ref="fileInput" @change="onFilePicked" accept="image/*"
@@ -33,14 +20,16 @@
             <div class="inline-flex py-2">
                 <my-button @doClick="clearForm" warnanya="bg-yellow-500" warnatext="text-white"
                     warnahover="hover:bg-yellow-600" label="Kembali" />
-                <my-button @doClick="onSave" warnanya="bg-green-500" warnatext="text-white" warnahover="hover:bg-green-600"
-                    label="Simpan" />
+                <my-button @doClick="postBarang" warnanya="bg-green-500" warnatext="text-white"
+                    warnahover="hover:bg-green-600" label="Simpan" />
             </div>
         </form>
     </div>
 </template>
     
 <script>
+import axios from 'axios'
+import Cookies from 'js-cookie'
 import { defineComponent } from "vue";
 import api from "../../../api.js";
 import FormInput from "../../../components/FormInput.vue";
@@ -49,8 +38,6 @@ export default defineComponent({
     components: { FormInput, FormSelect },
     emits: ["finish"],
     created() {
-        // this.getOptionTenda();
-        // this.mode = "form";
 
     },
     data() {
@@ -59,17 +46,28 @@ export default defineComponent({
             listTenda: [],
             listKategori: [],
             show: false,
-            formData: {
-                id: null,
-                kategori_id: "",
-                name: "",
-                description: "",
-                harga: "",
+            form: {
+                name: "sepatu rei",
+                description: "lorem",
+                harga: "20000",
+                foto: null,
             },
-            image: null,
+            token: Cookies.get('token'),
             imagePreview: null,
             // video: null,
         };
+    },
+    computed: {
+        formData() {
+            const formData = new FormData()
+
+            formData.append('foto', this.form.foto)
+            formData.append('name', this.form.name)
+            formData.append('harga', this.form.harga)
+            formData.append('description', this.form.description)
+
+            return formData;
+        },
     },
     methods: {
         getOptionKategori() {
@@ -77,14 +75,25 @@ export default defineComponent({
                 this.listKategori = respon.data.records;
             });
         },
+
+        getKategori() {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            }
+            axios.get('http://127.0.0.1:8000/api/kategori', config).then((response) => {
+                this.kategori = response.data.data
+                console.log(response);
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
+
+
         kategoriChange(event) {
             this.formData.barang_id = "";
         },
-        // getOptionTenda() {
-        //     api.get("tenda", {}).then((respon) => {
-        //         this.listTenda = respon.data.records;
-        //     });
-        // },
         clearData() {
             this.image = null;
             this.imagePreview = null;
@@ -126,7 +135,8 @@ export default defineComponent({
                 this.imagePreview = fileReader.result;
             });
             fileReader.readAsDataURL(files[0]);
-            this.image = files[0];
+            this.form.foto = files[0];
+            console.log(this.form.foto);
         },
         selectData(data) {
             this.show = true;
@@ -138,57 +148,51 @@ export default defineComponent({
             this.formData.image = data.images.length > 0 ? data.images[0].path : null;
             // console.log(this.formData.image);
         },
+        async postBarang() {
+            const file = this.form.foto;
+            const allowedFormats = ['image/jpeg', 'image/png', 'image/jpg'];
+            const maxSizeInBytes = 5 * 1024 * 1024;
 
-        onSave() {
-            const fd = new FormData();
-            fd.append("id", this.formData.id);
-            fd.append("kategori_id", this.formData.kategori_id);
-            fd.append("name", this.formData.name);
-            fd.append("description", this.formData.description);
-            fd.append("harga", this.formData.harga);
-
-            if (this.image != null) {
-                fd.append("image", this.image);
+            if (!file) {
+                this.handleGalat('Maaf, gambar tidak ada');
+                return;
             }
 
-            if (this.formData.id != null) {
-                //ini ada id, berarti edit data
-                fd.append("_method", "put");
-                fd.append("id", "this.formData.id,");
-                api
-                    .post("barang/" + this.formData.id, fd, {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                        },
-                    })
-                    .then((respon) => {
-                        this.show = false;
-                        this.$emit("finish");
-                    })
-                    .catch((err) => {
-                        if (err.response.status === 422) {
-                            this.errors = err.response.data.errors;
-                        }
-                    });
-            } else {
-                //new data
-                api
-                    .post("barang", fd, {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                        },
-                    })
-                    .then((respon) => {
-                        this.show = false;
-                        this.$emit("finish");
-                    })
-                    .catch((err) => {
-                        if (err.response.status === 422) {
-                            this.errors = err.response.data.errors;
-                        }
-                    });
+            if (!allowedFormats.includes(file.type)) {
+                this.handleGalat('Maaf, format gambar tidak sesuai');
+                return;
+            }
+
+            if (file.size > maxSizeInBytes) {
+                this.handleGalat('Maaf, ukuran gambar terlalu besar');
+                return;
+            }
+
+            try {
+                const response = await axios.post(
+                    'http://127.0.0.1:8000/api/barang',
+                    this.formData,
+                    { headers: { Authorization: `Bearer ${this.token}` } }
+                );
+                this.handleSuccess('berhasil tambah data')
+                this.clearForm()
+                console.log(response);
+            } catch (err) {
+                console.log(err);
             }
         },
+        handleSuccess(message) {
+            this.$swal({
+                icon: 'success',
+                title: message
+            })
+        },
+        handleGalat(message) {
+            this.$swal({
+                icon: 'error',
+                title: message
+            })
+        }
     },
 });
 </script>

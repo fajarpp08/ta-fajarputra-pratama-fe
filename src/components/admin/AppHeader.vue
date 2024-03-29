@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import axios from 'axios'
 import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
@@ -50,10 +52,12 @@ export default defineComponent({
     return {};
   },
   methods: {
-    logout: function () {
-      this.$store.dispatch("auth/logout").then(() => {
-        this.$router.push("Login");
-      });
+    logout() {
+      axios.get('http://127.0.0.1:8000/api/login', {}).then((response) => {
+        Cookies.remove('token')
+        Cookies.remove('role')
+        window.location = '/'
+      })
     },
   },
 });

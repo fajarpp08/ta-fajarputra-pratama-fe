@@ -1,10 +1,9 @@
 <template>
     <div v-if="show" ref="formKategori">
         <form class="flex flex-col justify-center w-1/2">
-            <form-input v-model="formData.name" :error="errors.name"
+            <form-input v-model="form.name" :error="errors.name"
                 :border="errors.name ? 'border-red-400' : 'border-gray-400'" placeholder="Masukkan Nama" showlabel=""
                 label="Nama" />
-
             <div class="inline-flex py-2">
                 <my-button @doClick="clearForm" warnanya="bg-yellow-500" warnatext="text-white"
                     warnahover="hover:bg-yellow-600" label="Kembali" />
@@ -16,33 +15,21 @@
 </template>
     
 <script>
-import { defineComponent } from "vue";
-import api from "../../../api.js";
 import FormInput from "../../../components/FormInput.vue";
-// import FormSelect from "../../../components/FormSelect.vue";
-export default defineComponent({
+import Cookies from 'js-cookie'
+import axios from 'axios'
+export default ({
     components: { FormInput },
     emits: ["finish"],
-    created() {
-        this.getOptionKategori();
-        // this.mode = "form";
-
-    },
     data() {
         return {
             errors: [],
-            listKategori: [],
-
-            show: false,
-            formData: {
-                id: null,
-                name: "",
-                description: "",
-                harga: "",
+            form: {
+                id: '',
+                name: ''
             },
-            image: null,
-            imagePreview: null,
-            // video: null,
+            show: false,
+            token: Cookies.get('token')
         };
     },
     methods: {
@@ -52,15 +39,14 @@ export default defineComponent({
             });
         },
         clearData() {
-            this.formData.id = null;
-            this.formData.name = "";
+            this.form.id = null;
+            this.form.name = "";
         },
-
         clearForm() {
             this.show = false;
             this.$emit("finish");
-            this.formData.id = null;
-            this.formData.name = "";
+            this.form.id = null;
+            this.form.name = "";
         },
         newData() {
             this.show = true;
@@ -68,42 +54,82 @@ export default defineComponent({
         },
         selectData(data) {
             this.show = true;
-            this.formData.id = data.id;
-            this.formData.name = data.name;
+            this.form.id = data.id;
+            this.form.name = data.name;
         },
         onSave() {
-            if (this.formData.id != null) {
+            if (this.form.id != null) {
                 //ini ada id, berarti edit data
-                api
-                    .put("kategori/" + this.formData.id, this.formData)
-                    .then((respon) => {
-                        this.clearForm();
-                        this.show = false;
-                        this.$emit("finish");
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`
+                    }
+                };
+                const bodyParams = {
+                    name: this.form.name
+                };
+
+                axios.put(`http://127.0.0.1:8000/api/kategori/${this.form.id}`, bodyParams, config)
+                    .then((response) => {
+                        this.$swal({
+                            icon: 'success',
+                            title: 'berhasil tambah data'
+                        }).then(() => {
+                            this.clearForm()
+                        })
                     })
                     .catch((err) => {
-                        if (err.response.status === 422) {
-                            this.errors = err.response.data.errors;
-                        }
+                        console.log(err);
                     });
             } else {
                 //new data
-                api
-                    .post("kategori", this.formData)
-                    .then((respon) => {
-                        this.clearForm();
-                        this.show = false;
-                        this.$emit("finish");
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`
+                    }
+                };
+                const bodyParams = {
+                    name: this.form.name
+                };
+
+                axios.post('http://127.0.0.1:8000/api/kategori', bodyParams, config)
+                    .then((response) => {
+                        this.$swal({
+                            icon: 'success',
+                            title: 'berhasil tambah data'
+                        }).then(() => {
+                            this.clearForm()
+                        })
                     })
                     .catch((err) => {
-                        if (err.response.status === 422) {
-                            this.errors = err.response.data.errors;
-                        }
+                        console.log(err);
                     });
             }
         },
+        postKategori() {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            };
+            const bodyParams = {
+                name: this.form.name
+            };
+
+            axios.post('http://127.0.0.1:8000/api/kategori', bodyParams, config)
+                .then((response) => {
+                    this.$swal({
+                        icon: 'success',
+                        title: 'berhasil tambah data'
+                    }).then(() => {
+                        this.clearForm()
+                    })
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     },
 });
 </script>
     
-<style scoped></style>

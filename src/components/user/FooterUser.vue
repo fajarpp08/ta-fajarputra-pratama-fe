@@ -30,18 +30,18 @@
           </div>
         </div>
         <div class="w-full px-4 sm:w-1/2 lg:w-2/6 ">
-          <div class="mb-2 w-full">
-            <h4 class="text-dark mb-8 text-lg font-semibold">Our Shop!</h4>
-            <ul>
+          <div class="mb-2 w-full grid grid-rows-1 flex justify-center">
+            <h4 class="text-dark mb-8 text-lg font-bold flex justify-center">Our Shop!</h4>
+            <ul >
               <li>
                 <a href="https://goo.gl/maps/v9bw9Ytt94ge13Z86"
-                  class="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose">
+                  class="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose flex justify-center">
                   Jelajah Alam Jati
                 </a>
               </li>
               <li>
                 <a href="https://goo.gl/maps/ez2EF7UbRUzLgL1K9"
-                  class="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose">
+                  class="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose flex justify-center">
                   Jelajah Alam Unand
                 </a>
               </li>
@@ -50,8 +50,8 @@
         </div>
         <div class="w-full px-4 sm:w-1/2 lg:w-4/12 flex justify-end">
           <div class="mb-10 w-full">
-            <h4 class="text-dark mb-9 text-lg font-semibold">Follow Us On</h4>
-            <div class="mb-6 flex items-center">
+            <h4 class="text-dark mb-9 text-lg font-bold flex justify-end mr-4">Follow Us On</h4>
+            <div class="mb-6 flex justify-end">
               <a href="https://www.facebook.com/dedek.fpp"
                 class="text-dark hover:bg-primary hover:border-primary mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-[#E5E5E5] hover:text-white sm:mr-4 lg:mr-3 xl:mr-4">
                 <svg width="8" height="16" viewBox="0 0 8 16" class="fill-current">
@@ -86,7 +86,7 @@
                 </svg>
               </a>
             </div>
-            <p class="text-body-color text-base">&copy; 2023 - Fajar Putra Pratama</p>
+            <p class="text-body-color text-base flex justify-end mr-4">&copy; 2023 - Fajar Putra Pratama</p>
           </div>
         </div>
       </div>
